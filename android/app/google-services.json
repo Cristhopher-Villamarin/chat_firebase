@@ -1,26 +1,110 @@
 {
   "project_info": {
-    "project_number": "999824839007",
-    "project_id": "chat-tiempo-real-57fe3",
-    "storage_bucket": "chat-tiempo-real-57fe3.firebasestorage.app"
+    "project_number": "274663628481",
+    "project_id": "mensajeria-94b04",
+    "storage_bucket": "mensajeria-94b04.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:999824839007:android:91e507f0af05f3a960e6ea",
+        "mobilesdk_app_id": "1:274663628481:android:6f94704aa3e361f6f73e40",
         "android_client_info": {
-          "package_name": "com.example.chatfirebase"
+          "package_name": "com.espe.mensajeria"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "274663628481-88fgsnp54ik26cqo80qke06a7k39nol3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.espe.mensajeria",
+            "certificate_hash": "61475e671378e14c6b1307b3cb51b04e65c3459e"
+          }
+        },
+        {
+          "client_id": "274663628481-6jeoghjbstioio0m7iudmk3m8a53d36c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyAK9zqux9rgUKl0ksB0o89HQZuFewuGa6A"
+          "current_key": "AIzaSyAkszrljWkqHHaXKR6cNWt6umOH5ir4c6I"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "274663628481-6jeoghjbstioio0m7iudmk3m8a53d36c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:274663628481:android:282076fce23bcd6cf73e40",
+        "android_client_info": {
+          "package_name": "com.example.chatfirebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "274663628481-eh12qkeehjetsvbrbbo3i9uper40pqba.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.chatfirebase",
+            "certificate_hash": "61475e671378e14c6b1307b3cb51b04e65c3459e"
+          }
+        },
+        {
+          "client_id": "274663628481-6jeoghjbstioio0m7iudmk3m8a53d36c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkszrljWkqHHaXKR6cNWt6umOH5ir4c6I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "274663628481-6jeoghjbstioio0m7iudmk3m8a53d36c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:274663628481:android:face45e0f1ff2ee3f73e40",
+        "android_client_info": {
+          "package_name": "com.mensajeria"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "274663628481-6jeoghjbstioio0m7iudmk3m8a53d36c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkszrljWkqHHaXKR6cNWt6umOH5ir4c6I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "274663628481-6jeoghjbstioio0m7iudmk3m8a53d36c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

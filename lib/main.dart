@@ -5,15 +5,15 @@ import 'views/login_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Inicializa Firebase con opciones específicas para Web
+  // Inicializa Firebase con las opciones específicas para Web
   await Firebase.initializeApp(
     options: const FirebaseOptions(
-      apiKey: "AlzaSyCu_8XzBNPLw_gj09ejgTAZtXVOisOSly8", // Clave de API web de tu Firebase
-      authDomain: "chat-tiempo-real-57fe3.firebaseapp.com",
-      projectId: "chat-tiempo-real-57fe3",
-      storageBucket: "chat-tiempo-real-57fe3.appspot.com",
-      messagingSenderId: "999824839007",
-      appId: "1:999824839007:web:xxxxxxx", // Reemplaza con el appId que aparece en tu configuración.
+      apiKey: "AIzaSyAkszrljWkqHHaXKR6cNWt6umOH5ir4c6I", // Clave de API web
+      authDomain: "mensajeria-94b04.firebaseapp.com", // authDomain del proyecto
+      projectId: "mensajeria-94b04", // ID del proyecto
+      storageBucket: "mensajeria-94b04.appspot.com", // Storage bucket
+      messagingSenderId: "274663628481", // Sender ID del proyecto
+      appId: "1:274663628481:android:6f94704aa3e361f6f73e40", // App ID del proyecto
     ),
   );
 
