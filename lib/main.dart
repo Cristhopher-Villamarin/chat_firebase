@@ -25,11 +25,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Autenticación con Google',
+      title: 'Chat App',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.indigo,
       ),
-      home: LoginScreen(), // Pantalla de inicio con botón de autenticación
+      home: LoginScreen(),
     );
   }
 }

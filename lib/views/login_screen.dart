@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import '../services/auth_service.dart'; // Importa tu archivo de servicio de autenticación
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
+import 'ChatScreen.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -8,53 +10,138 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final AuthService _authService = AuthService();
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
+  Future<void> _signInWithGoogle() async {
+    try {
+      await GoogleSignIn().signOut();
+      await _firebaseAuth.signOut();
+
+      final GoogleSignIn googleSignIn = GoogleSignIn(
+        scopes: ['email'],
+        signInOption: SignInOption.standard,
+      );
+
+      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+      if (googleUser != null) {
+        final GoogleSignInAuthentication googleAuth =
+        await googleUser.authentication;
+
+        final AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+
+        final UserCredential userCredential =
+        await _firebaseAuth.signInWithCredential(credential);
+        final user = userCredential.user;
+
+        if (user != null) {
+          _connectToWebSocket(user.displayName ?? user.email ?? "Anónimo");
+        }
+      }
+    } catch (e) {
+      print('Error al iniciar sesión con Google: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error al iniciar sesión: $e')),
+      );
+    }
+  }
+
+  void _connectToWebSocket(String username) {
+    final wsUrl = Uri.parse('ws://localhost:8080/ws');
+    final channel = WebSocketChannel.connect(wsUrl);
+
+    channel.sink.add('{"type": "JOIN", "username": "$username"}');
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ChatScreen(channel: channel, username: username),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Inicio de Sesión con Google'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Botón de Google Sign-In
-            ElevatedButton.icon(
-              icon: Icon(Icons.login),
-              label: Text('Iniciar sesión con Google'),
-              onPressed: () async {
-                User? user = await _authService.signInWithGoogle();
-                if (user != null) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Inicio de sesión exitoso: ${user.displayName}'),
-                    ),
-                  );
-                  // Navega a la pantalla principal o realiza otras acciones
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('El inicio de sesión fue cancelado.'),
-                    ),
-                  );
-                }
-              },
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFFF6F9FF), Color(0xFFE9ECFF)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Center(
+          child: Card(
+            elevation: 4,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
             ),
-            SizedBox(height: 20),
-            // Botón de Cerrar Sesión
-            ElevatedButton.icon(
-              icon: Icon(Icons.logout),
-              label: Text('Cerrar sesión'),
-              onPressed: () async {
-                await _authService.signOut();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Sesión cerrada exitosamente.')),
-                );
-              },
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CircleAvatar(
+                    radius: 40,
+                    backgroundColor: Colors.indigo,
+                    child: Icon(
+                      Icons.message_rounded,
+                      size: 40,
+                      color: Colors.white,
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    'Mensajería',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.indigo,
+                    ),
+                  ),
+                  SizedBox(height: 8),
+                  Text(
+                    'Inicia sesión para acceder a tus mensajes',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Colors.indigo,
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.black,
+                      side: BorderSide(color: Colors.indigo!),
+                      elevation: 2,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 1, horizontal: 1),
+                    ),
+                    icon: Image.asset(
+                      'assets/google_logo.png',
+                      height: 20,
+                      width: 20,
+                    ),
+                    label: Text(
+                      'Iniciar sesión con Google',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    onPressed: _signInWithGoogle,
+                  ),
+                  SizedBox(height: 16),
+                  Divider(),
+                  SizedBox(height: 16),
+
+                ],
+              ),
             ),
-          ],
+          ),
         ),
       ),
     );

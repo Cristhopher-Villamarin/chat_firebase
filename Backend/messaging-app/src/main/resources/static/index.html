@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Messaging</title>
+</head>
+<body>
+<h1>WebSocket Messaging</h1>
+
+<div id="messages">
+    <h2>Mensajes Enviados:</h2>
+    <ul id="messageList"></ul>
+</div>
+
+<div>
+    <input type="text" id="messageInput" placeholder="Escribe tu mensaje">
+    <button onclick="sendMessage()">Enviar</button>
+</div>
+
+<script>
+    var socket = new WebSocket("ws://localhost:8080/ws");
+    var messageInput = document.getElementById('messageInput');
+    var messageList = document.getElementById('messageList');
+
+    // Evento cuando la conexión WebSocket se abre
+    socket.onopen = function() {
+        console.log("Conectado al WebSocket");
+    };
+
+    // Evento cuando se recibe un mensaje desde el servidor
+    socket.onmessage = function(event) {
+        console.log("Mensaje recibido del servidor: " + event.data);
+        displayMessage(event.data);  // Muestra el mensaje recibido en la UI
+    };
+
+    // Evento cuando la conexión WebSocket se cierra
+    socket.onclose = function() {
+        console.log("Conexión WebSocket cerrada");
+    };
+
+    // Función para enviar el mensaje
+    function sendMessage() {
+        var message = messageInput.value;
+        if (message) {
+            console.log("Enviando mensaje: " + message);
+            socket.send(message);  // Envía el mensaje al servidor WebSocket
+            messageInput.value = '';  // Limpia el campo de entrada
+        } else {
+            alert("Por favor, escribe un mensaje.");
+        }
+    }
+
+    // Función para mostrar el mensaje en la página
+    function displayMessage(message) {
+        var li = document.createElement('li');
+        li.textContent = message;
+        messageList.appendChild(li);
+    }
+</script>
+</body>
+</html>
